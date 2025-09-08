@@ -1,4 +1,8 @@
 /* ---SET GENERALI */
+* {
+  cursor: none !important;
+}
+
 h1 {
   font-family: "Titillium Web", sans-serif;
   font-weight: 700;
@@ -18,10 +22,10 @@ p {
 }
 
 /* --- HEADER */
+
 .header-site {
   background-color: transparent;
   z-index: 10;
-
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* ombra scura bottom */
 }
 
@@ -61,6 +65,21 @@ p {
 }
 
 /* --- HOMEPAGE */
+/* Cursore tondo in hero */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #fea724;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  transition: transform 0.05s linear;
+}
+
 .homepage-background-hero {
   margin-top: -72px;
   height: 100vh;
@@ -114,7 +133,6 @@ p {
   border-bottom: 2px solid white; /* bordo solo in basso */
   padding: 0.5rem 1rem;
   transition: all 0.3s ease; /* animazione fluida */
-  cursor: pointer;
 }
 
 .button-hero:hover {
