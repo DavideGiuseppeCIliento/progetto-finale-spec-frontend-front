@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
-    <nav className="header-site navbar navbar-expand-lg navbar-dark bg-dark px-5">
+    <nav className="header-site navbar navbar-expand-lg navbar-dark  px-5">
       <a className="navbar-brand" href="#">
         Navbar
       </a>
