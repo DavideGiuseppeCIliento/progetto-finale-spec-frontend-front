@@ -1,0 +1,78 @@
+/* ---SET GENERALI */
+h1 {
+  font-family: "Titillium Web", sans-serif;
+  font-weight: 700;
+}
+
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Varela Round", sans-serif;
+  font-weight: 500;
+}
+
+p {
+  font-family: "Varela Round", sans-serif;
+  font-weight: 400;
+}
+
+/* --- HOMEPAGE */
+.homepage-background-hero {
+  height: 100vh;
+  width: 100%;
+  background-image: url("../images/expedition-background.webp");
+  background-size: cover;
+  background-position: center;
+}
+
+.homepage-background-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.718), rgba(0, 0, 0, 0.6));
+  z-index: 0; /* sotto al testo */
+}
+
+.homepage-text-hero {
+  z-index: 1;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-title {
+  font-weight: 900;
+  font-size: 4.3rem;
+  color: #fff;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+}
+
+/* Media query per schermi <= 500px */
+@media (max-width: 500px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .homepage-text-hero h5 {
+    font-size: 1.2rem;
+  }
+}
+
+.button-hero {
+  color: white;
+  background-color: transparent;
+  font-size: 1rem;
+  border: none; /* rimuove bordo default */
+  border-bottom: 2px solid white; /* bordo solo in basso */
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease; /* animazione fluida */
+  cursor: pointer;
+}
+
+.button-hero:hover {
+  color: #fea724; /* testo arancione */
+  border-bottom-color: #fea724; /* bordo arancione */
+}
