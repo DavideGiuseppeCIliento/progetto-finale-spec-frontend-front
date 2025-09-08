@@ -21,19 +21,54 @@ p {
 .header-site {
   background-color: transparent;
   z-index: 10;
-  position: sticky;
-  top: 0%;
+
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* ombra scura bottom */
+}
+
+/* Quando è COLLASSATA (sotto lg), rendi il menu full-width con bg scuro */
+@media (max-width: 991.98px) {
+  .navbar .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    padding: 0.5rem 1rem;
+  }
+  .navbar {
+    position: relative;
+  }
+}
+
+/* INPUT HEADER */
+.search-input-home {
+  background-color: transparent !important;
+  color: white !important;
+  border: 1px solid white;
+}
+
+.search-input-home::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search-input-home:focus {
+  background-color: transparent;
+  color: white;
+  border-color: #fea724; /* bordo arancione al focus */
+  box-shadow: none; /* rimuove glow blu Bootstrap */
 }
 
 /* --- HOMEPAGE */
 .homepage-background-hero {
-  margin-top: -55px;
+  margin-top: -72px;
   height: 100vh;
   width: 100%;
   background-image: url("../images/expedition-background.webp");
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 .homepage-background-hero::after {
@@ -61,7 +96,7 @@ p {
 }
 
 /* Media query per schermi <= 500px */
-@media (max-width: 500px) {
+@media (max-width: 590px) {
   .hero-title {
     font-size: 2.5rem;
   }

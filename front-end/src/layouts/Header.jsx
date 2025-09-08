@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
-    <nav className="header-site navbar navbar-expand-lg navbar-dark  px-5">
+    <nav className="header-site navbar navbar-expand-lg navbar-dark px-5 pt-4">
       <a className="navbar-brand" href="#">
         Navbar
       </a>
@@ -20,6 +20,7 @@ export default function Header() {
       </button>
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        {/* Menu di sinistra */}
         <ul className="navbar-nav me-auto">
           <li className="nav-item">
             <a className="nav-link" href="#">
@@ -37,6 +38,16 @@ export default function Header() {
             </a>
           </li>
         </ul>
+
+        {/* Input di destra */}
+        <form className="d-flex " role="search">
+          <input
+            className="form-control me-2 search-input-home "
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+        </form>
       </div>
     </nav>
   );
