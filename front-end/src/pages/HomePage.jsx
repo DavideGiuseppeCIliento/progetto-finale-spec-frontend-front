@@ -4,17 +4,17 @@ import { useEffect, useRef } from "react";
 export default function HomePage() {
   const cursorRef = useRef(null);
 
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (cursorRef.current) {
-        cursorRef.current.style.top = `${e.clientY}px`;
-        cursorRef.current.style.left = `${e.clientX}px`;
-      }
-    };
+  // useEffect(() => {
+  //   const handleMouseMove = (e) => {
+  //     if (cursorRef.current) {
+  //       cursorRef.current.style.top = `${e.clientY}px`;
+  //       cursorRef.current.style.left = `${e.clientX}px`;
+  //     }
+  //   };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  //   window.addEventListener("mousemove", handleMouseMove);
+  //   return () => window.removeEventListener("mousemove", handleMouseMove);
+  // }, []);
 
   return (
     // ## HERO SECTION
