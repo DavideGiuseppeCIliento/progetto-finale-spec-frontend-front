@@ -10,6 +10,7 @@ const { VITE_API_URL } = import.meta.env;
 
 export default function GamesPage() {
   const [games, setGames] = useState([]);
+  const [inputValue, setInputValue] = useState("");
 
   //  --- FUNZIONE CHIAMATA API
   async function ApiRequest() {
@@ -27,6 +28,7 @@ export default function GamesPage() {
   // --- FUNZIONE GESTIONE INPUT
   function handleInput(e) {
     const value = e.target.value;
+    setInputValue(value);
   }
 
   // --- FUNZIONE GESTIONE FORM INVIO
@@ -43,14 +45,15 @@ export default function GamesPage() {
       <div className="container py-5 text-center">
         <form
           className="d-flex justify-content-center"
-          onSubmit={(e) => e.preventDefault()} // evita ricarica pagina
+          onSubmit={handleSubmit} // evita ricarica pagina
         >
           <input
             type="search"
             className="form-control w-50"
             placeholder="Cerca un videogioco..."
             aria-label="Search"
-            // onChange={(e) => setSearchTerm(e.target.value)} // qui ci metti la logica
+            value={inputValue}
+            onChange={handleInput}
           />
         </form>
       </div>
