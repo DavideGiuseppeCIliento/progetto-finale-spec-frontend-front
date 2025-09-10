@@ -1,29 +1,31 @@
 // # IMPORT DIPENDENCES
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 // # IMPORT COMPONENTS
 import CardGame from "../components/CardGame";
 
-// # IMPORT URL API
-const { VITE_API_URL } = import.meta.env;
+// # IMPORT HOOKS
+import useGames from "../hooks/useGames";
 
 export default function GamesPage() {
-  const [games, setGames] = useState([]);
+  const { allGames, games, getFilteredGames } = useGames(); // GAMES PRESI DA HOOK PERSONALIZZATO
   const [inputValue, setInputValue] = useState("");
+  const [categorySelected, setCategorySelected] = useState("");
 
-  //  --- FUNZIONE CHIAMATA API
-  async function ApiRequest() {
-    try {
-      const res = await axios.get(`${VITE_API_URL}/games`);
-      setGames(res.data);
-      console.log(res.data);
-    } catch (err) {}
+  // --- CREAZIONE ARRAY CATEGORIE
+  const categories = useMemo(() => {
+    // USE MEMO RICALCOLA ARRAY SOLO SE CAMBIA GAMES
+    const cat = Array.from(new Set(allGames.map((g) => g.category))).sort();
+    return [...cat];
+  }, [allGames]);
+
+  //   --- GESTIONE OPTION CATEGORY
+  function handleRadio(e) {
+    const value = e.target.value;
+    setCategorySelected(value);
+    console.log(value);
   }
-
-  useEffect(() => {
-    ApiRequest();
-  }, []);
 
   // --- FUNZIONE GESTIONE INPUT
   function handleInput(e) {
@@ -34,40 +36,72 @@ export default function GamesPage() {
   // --- FUNZIONE GESTIONE FORM INVIO
   function handleSubmit(e) {
     e.preventDefault();
+    getFilteredGames(inputValue, categorySelected);
   }
 
+  // console.log("Categorie selezionate: ", categorySelected);
   return (
     <>
       <div className="container py-5 text-center">
         <h1>Videogames</h1>
       </div>
 
-      <div className="container py-5 text-center">
+      {/* SEARCH + CATEGORIE */}
+      <div className="container py-5">
         <form
-          className="d-flex justify-content-center"
-          onSubmit={handleSubmit} // evita ricarica pagina
+          className="mx-auto"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit(e);
+          }}
+          style={{ maxWidth: 900 }}
         >
-          <input
-            type="search"
-            className="form-control w-50"
-            placeholder="Cerca un videogioco..."
-            aria-label="Search"
-            value={inputValue}
-            onChange={handleInput}
-          />
+          {/* Input di ricerca */}
+          <div className="d-flex justify-content-center">
+            <input
+              type="search"
+              className="form-control w-100"
+              placeholder="Cerca un videogioco..."
+              aria-label="Search"
+              value={inputValue}
+              onChange={handleInput}
+            />
+          </div>
+
+          {/* Checkbox categorie (sotto l'input) */}
+          {categories.map((c, i) => (
+            <div className="form-check form-check-inline" key={i}>
+              <input
+                className="form-check-input me-1"
+                type="radio"
+                id={i}
+                name="category"
+                value={c}
+                checked={categorySelected === c}
+                onChange={handleRadio}
+              />
+              <label className="form-check-label" htmlFor={c}>
+                {c}
+              </label>
+            </div>
+          ))}
         </form>
       </div>
 
       <div className="container">
         <div className="row">
-          {games.map((g, i) => (
-            <div
-              key={i}
-              className="col-12 col-md-6 col-lg-3 d-flex justify-content-center my-3 "
-            >
-              <CardGame title={g.title} category={g.category} />
-            </div>
-          ))}
+          {games.length > 0 ? (
+            games.map((g, i) => (
+              <div
+                key={i}
+                className="col-12 col-md-6 col-lg-3 d-flex justify-content-center my-3 "
+              >
+                <CardGame title={g.title} category={g.category} id={g.id} />
+              </div>
+            ))
+          ) : (
+            <h1>NESSUN RISULTATO...</h1>
+          )}
         </div>
       </div>
     </>

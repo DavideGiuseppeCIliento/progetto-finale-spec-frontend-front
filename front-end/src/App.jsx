@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 // # IMPORT PAGES
 import HomePage from "./pages/HomePage";
 import GamesPage from "./pages/GamesPage";
+import DetailGamePage from "./pages/DetailGamePage";
 
 // # IMPORT LAYOUT
 import DefaultLayout from "./layouts/DefaultLayout";
@@ -15,6 +16,7 @@ export default function App() {
         <Route element={<DefaultLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/games" element={<GamesPage />} />
+          <Route path="/games/:id" element={<DetailGamePage />} />
         </Route>
       </Routes>
     </BrowserRouter>
