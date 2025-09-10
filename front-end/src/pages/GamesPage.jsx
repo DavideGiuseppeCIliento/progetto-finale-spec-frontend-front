@@ -40,7 +40,11 @@ export default function GamesPage() {
   }
 
   // --- RESET FORM
-  function handleReset() {}
+  function handleReset() {
+    setInputValue("");
+    setCategorySelected("");
+    getFilteredGames("", "");
+  }
 
   return (
     <>
