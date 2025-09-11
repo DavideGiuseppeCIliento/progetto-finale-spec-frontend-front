@@ -9,6 +9,8 @@ export default function useGames() {
   const [games, setGames] = useState([]);
   const [allGames, setAllGames] = useState([]);
 
+  const [gameDetail, setGameDetail] = useState(null); // Game dettaglio
+
   //  --- FUNZIONE GET GAMES
   async function ApiRequestGet() {
     try {
@@ -23,6 +25,17 @@ export default function useGames() {
   useEffect(() => {
     ApiRequestGet();
   }, []);
+
+  // --- FUNZIONE GET DETAIL
+  async function ApiRequestDetail(id) {
+    try {
+      const res = await axios.get(`${VITE_API_URL}/games/${id}`);
+      setGameDetail(res.data.game);
+    } catch (err) {
+      console.error("Problema nella richiesta GET");
+      setGameDetail(null);
+    }
+  }
 
   //  --- FUNZIONE GET FILTER GAMES
   async function getFilteredGames(inputValue, categorySelected) {
@@ -49,5 +62,5 @@ export default function useGames() {
     }
   }
 
-  return { allGames, games, getFilteredGames };
+  return { allGames, games, gameDetail, getFilteredGames, ApiRequestDetail };
 }
