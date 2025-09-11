@@ -12,6 +12,25 @@ export default function GamesPage() {
   const { allGames, games, getFilteredGames } = useGames(); // GAMES PRESI DA HOOK PERSONALIZZATO
   const [inputValue, setInputValue] = useState("");
   const [categorySelected, setCategorySelected] = useState("");
+  const [sort, setSort] = useState("name");
+
+  // --- ORDINAMENTO GAMES
+  const sortedGames = useMemo(() => {
+    const gameOrder = [...games];
+
+    if (sort === "name") {
+      console.log("ORDINE NOME");
+      gameOrder.sort((a, b) => {
+        return a.title.localeCompare(b.title);
+      });
+    } else if (sort === "category") {
+      console.log("ORDINE CATEGORY");
+      gameOrder.sort((a, b) => {
+        return a.category.localeCompare(b.category);
+      });
+    }
+    return gameOrder;
+  }, [sort, games]);
 
   // --- CREAZIONE ARRAY CATEGORIE
   const categories = useMemo(() => {
@@ -126,6 +145,23 @@ export default function GamesPage() {
                     );
                   })}
                 </div>
+
+                {/* Ordinamento */}
+                <div className="mb-3">
+                  <label htmlFor="ordinamento" className="form-label">
+                    Ordina
+                  </label>
+                  <select
+                    id="ordinamento"
+                    name="ordinamento"
+                    className="form-select"
+                    value={sort}
+                    onChange={(e) => setSort(e.target.value)}
+                  >
+                    <option value="name">Nome (A–Z)</option>
+                    <option value="category">Categoria (A–Z)</option>
+                  </select>
+                </div>
               </form>
             </div>
           </aside>
@@ -133,8 +169,8 @@ export default function GamesPage() {
           {/* ===== Lista prodotti ===== */}
           <main className="col-12 col-lg-9">
             <div className="row">
-              {Array.isArray(games) && games.length > 0 ? (
-                games.map((g) => (
+              {Array.isArray(sortedGames) && sortedGames.length > 0 ? ( // ## USO sortedGames per avere GAME ORDINATI
+                sortedGames.map((g) => (
                   <div
                     key={g.id ?? g.title}
                     className="col-12 col-md-6 col-lg-4 d-flex justify-content-center my-3"
