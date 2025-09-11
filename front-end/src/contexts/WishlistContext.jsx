@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const WishlistContext = createContext();
 const STORAGE_KEY = "wishlist"; //chiave STORAGE
@@ -13,6 +13,10 @@ export function WishlistProvider({ children }) {
       return []; //Inizializzo se vuoto o corrotto
     }
   });
+
+  //   useEffect(() => {
+  //     console.log("WISHLIST", wishlist);
+  //   }, [wishlist]);
 
   //  --- Salva su LOCALSTORAGE quando cambia wishlist
   useEffect(() => {

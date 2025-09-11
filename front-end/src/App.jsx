@@ -9,7 +9,7 @@ import DetailGamePage from "./pages/DetailGamePage";
 // # IMPORT LAYOUT
 import DefaultLayout from "./layouts/DefaultLayout";
 
-// # IMPORT CONTEXT
+// # IMPORT CONTEXT PROVIDER
 import { WishlistProvider } from "./contexts/wishlistContext";
 
 export default function App() {

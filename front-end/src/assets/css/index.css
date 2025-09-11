@@ -194,3 +194,18 @@ p {
   z-index: 1;
   color: white;
 }
+
+/* ---CARD */
+
+/* ## WISHLIST */
+.heart-btn {
+  line-height: 1;
+} /* per click area pulita */
+.heart-btn i {
+  display: inline-block; /* <— importante per transform */
+  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.heart-btn:hover i,
+.heart-btn:focus-visible i {
+  transform: scale(1.12);
+}

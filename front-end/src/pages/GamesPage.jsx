@@ -1,6 +1,5 @@
 // # IMPORT DIPENDENCES
-import axios from "axios";
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 
 // # IMPORT COMPONENTS
 import CardGame from "../components/CardGame";
