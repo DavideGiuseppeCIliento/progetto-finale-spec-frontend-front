@@ -139,3 +139,58 @@ p {
   color: #fea724; /* testo arancione */
   border-bottom-color: #fea724; /* bordo arancione */
 }
+
+/* ## Colonna Info sotto HERO */
+.info-column {
+  padding: 30px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+.info-column.col1 {
+  background-image: url("../images/assCread.webp");
+}
+.info-column.col2 {
+  background-image: url("../images/Life-is-strange.webp");
+}
+.info-column.col3 {
+  background-image: url("../images/mariocart.webp");
+}
+
+.info-column::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #00000093;
+  z-index: 0;
+}
+.info-column-text {
+  position: relative;
+  z-index: 1;
+}
+
+/* ## Sezione immagine Grande */
+.container-image-homepage {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("../images/skyrim-special.webp");
+  padding: 30px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+.container-image-homepage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #ff8400ce;
+  z-index: 0;
+}
+.container-image-homepage-text {
+  position: relative;
+  z-index: 1;
+  color: white;
+}
