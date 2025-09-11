@@ -48,12 +48,12 @@ function CardGame({ title, category, id }) {
       >
         {!isInWishlist ? (
           <i
-            className="bi bi-heart fs-4 text-danger"
+            className="bi bi-heart fs-4 text-dark"
             onClick={handleWishlist}
           ></i>
         ) : (
           <i
-            className="bi bi-heart-fill fs-4 text-danger"
+            className="bi bi-heart-fill fs-4 text-dark"
             onClick={handleWishlist}
           ></i>
         )}
