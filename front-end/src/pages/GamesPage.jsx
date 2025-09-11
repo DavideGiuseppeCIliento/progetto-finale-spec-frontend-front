@@ -74,12 +74,12 @@ export default function GamesPage() {
       <div className="container pb-5">
         <div className="row g-4">
           {/* ===== Sidebar Filtri ===== */}
-          <aside className="col-12 col-lg-3">
-            <div className="position-sticky" style={{ top: "6rem" }}>
+          <aside className="col-12 col-lg-3 ">
+            <div className="position-sticky " style={{ top: "6rem" }}>
               <form
                 id="filters"
                 onSubmit={handleSubmit}
-                className="p-3 border rounded-3 bg-light"
+                className="p-3 border-light shadow-sm rounded-3 bg-light"
               >
                 {/* Ricerca */}
                 <label htmlFor="search" className="form-label fw-semibold">
