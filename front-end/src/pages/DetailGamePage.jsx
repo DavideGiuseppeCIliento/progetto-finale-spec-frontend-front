@@ -54,6 +54,25 @@ export default function DetailGamePage() {
     );
   }
 
+  // --- GESTIONE CART LIST
+  function handleCartList(e) {
+    e.preventDefault?.();
+    e.stopPropagation?.(); // STOP propagazione su elemetni genitori
+    setCart(
+      (prev) =>
+        prev.some((x) => x.id === Number(id))
+          ? prev.filter((x) => x.id !== Number(id)) // Se esiste lo elimino
+          : [
+              ...prev,
+              {
+                title: gameDetail.title,
+                category: gameDetail.category,
+                id: gameDetail.id,
+              },
+            ] // Se non esiste lo aggiungo
+    );
+  }
+
   return (
     <div className="container py-5">
       {/* Breadcrumb */}
@@ -197,8 +216,21 @@ export default function DetailGamePage() {
           </div>
           {/* CTA (placeholder, collega tu la logica) */}
           <div className="d-flex flex-wrap gap-2">
-            <button className="btn btn-dark bg-gradient rounded-4">
-              <i className="bi bi-cart-plus me-1" />
+            <button
+              className="btn btn-dark bg-gradient rounded-4"
+              onClick={handleCartList}
+            >
+              {!isInCart ? (
+                <i
+                  className="bi bi-cart fs-4 text-light"
+                  onClick={handleCartList}
+                ></i>
+              ) : (
+                <i
+                  className="bi bi-cart-fill fs-4 text-light"
+                  onClick={handleCartList}
+                ></i>
+              )}
               Acquista
             </button>
 
