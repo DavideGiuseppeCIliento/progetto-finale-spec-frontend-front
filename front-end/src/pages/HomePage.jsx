@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 
 // # IMPORT COMPONENTS
 import CardGame from "../components/CardGame";
+import FormContact from "../components/FormContact";
 
 // #IMPORT HOOKS
 import useGames from "../hooks/useGames";
@@ -23,7 +24,12 @@ export default function HomePage() {
       {/* ===== HERO SECTION ===== */}
       <div className="container-fluid homepage-background-hero d-flex flex-column align-items-center justify-content-center text-center">
         <div className="row homepage-text-hero ">
-          <h1 className="hero-title">Vivi Sperienze Indimenticabili</h1>
+          <h4>
+            <strong>
+              {"Soltanto da noi puoi vivere i migliori giochi".toUpperCase()}
+            </strong>
+          </h4>
+          <h1 className="hero-title">Eperienze Indimenticabili</h1>
           <h5>Non perderti mai i titoli più emozionanti del momento</h5>
           <div className="col-auto pt-4">
             <NavLink to="/games" className="button-hero text-decoration-none">
@@ -150,6 +156,20 @@ export default function HomePage() {
           <NavLink to="/games" className="button-hero text-decoration-none">
             Scopri di più
           </NavLink>
+        </div>
+      </div>
+
+      {/* ===== SEZIONE FORM CONTATTI ===== */}
+
+      <div className="container-fluid text-center pt-5 pb-3 bg-light">
+        <h1>Per informazioni</h1>
+      </div>
+
+      <div className="container-fluid bg-light">
+        <div className="container pb-5 bg-light">
+          <div className="row">
+            <FormContact />
+          </div>
         </div>
       </div>
     </>

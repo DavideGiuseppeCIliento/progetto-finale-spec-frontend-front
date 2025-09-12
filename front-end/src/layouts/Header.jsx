@@ -1,14 +1,22 @@
 // # IMPORT DIPENDENCES
 import { NavLink, useLocation } from "react-router-dom";
+import { useState, useContext, useMemo } from "react";
+
+// # IMPORT CONTEXT
+import { WishlistContext } from "../contexts/wishlistContext";
 
 export default function Header() {
   const location = useLocation(); // Leggiamo l'url per il colore dell'header
-  const isHome = location.pathname === "/";
+  const isHome = location.pathname === "/"; // Siamo in HOME?
+
+  // --- GESTIONE CUORE WISHLIST
+  const { wishlist } = useContext(WishlistContext);
+  const isWishlistFull = wishlist.length > 0;
 
   return (
     <nav
       className={`header-site navbar navbar-expand-lg navbar-dark px-5 pt-4 ${
-        isHome ? "bg-transparent" : "bg-dark"
+        isHome ? "bg-transparent" : "bg-dark" // Se siamo in HOME l'header è trasparente
       }`}
     >
       <NavLink className="navbar-brand" to="/">
@@ -72,18 +80,30 @@ export default function Header() {
             aria-label="Search"
           />
           {/* Icone social */}
-          <div className="d-flex gap-3 ms-3">
-            <NavLink to="/facebook" className="text-white fs-5">
-              <i className="bi bi-facebook"></i>
-            </NavLink>
-            <NavLink to="/instagram" className="text-white fs-5">
-              <i className="bi bi-instagram"></i>
-            </NavLink>
-            <NavLink to="/twitter" className="text-white fs-5">
-              <i className="bi bi-twitter-x"></i>
-            </NavLink>
-          </div>
         </form>
+        <div className="d-flex gap-3 ms-3">
+          <NavLink to="/facebook" className="text-white fs-5">
+            <i className="bi bi-facebook"></i>
+          </NavLink>
+          <NavLink to="/instagram" className="text-white fs-5">
+            <i className="bi bi-instagram"></i>
+          </NavLink>
+        </div>
+
+        <div className="d-flex gap-3 ms-3">
+          <NavLink to="/cart" className="text-white fs-5">
+            <i className="bi bi-cart"></i>
+          </NavLink>
+          {!isWishlistFull ? (
+            <NavLink to="/wishlist" className="text-white fs-5">
+              <i className="bi bi-heart fs-4 text-light"></i>
+            </NavLink>
+          ) : (
+            <NavLink to="/wishlist" className="text-white fs-5">
+              <i className="bi bi-heart-fill fs-4 text-light"></i>
+            </NavLink>
+          )}
+        </div>
       </div>
     </nav>
   );
