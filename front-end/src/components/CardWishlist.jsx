@@ -34,7 +34,10 @@ function CardWishlist({ title, category, id }) {
           <strong>{title.toUpperCase()}</strong>
         </h5>
         <p className="card-text">{category}</p>
-        <Link to={`${id}`} className="btn btn-dark bg-gradient rounded-4">
+        <Link
+          to={`/games/${id}`}
+          className="btn btn-dark bg-gradient rounded-4"
+        >
           Scopri di più
         </Link>
       </div>

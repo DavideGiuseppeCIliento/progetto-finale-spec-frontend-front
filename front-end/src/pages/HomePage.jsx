@@ -161,12 +161,12 @@ export default function HomePage() {
 
       {/* ===== SEZIONE FORM CONTATTI ===== */}
 
-      <div className="container-fluid text-center pt-5 pb-3 bg-light">
+      <div className="container-fluid text-center pt-5 pb-3 ">
         <h1>Per informazioni</h1>
       </div>
 
-      <div className="container-fluid bg-light">
-        <div className="container pb-5 bg-light">
+      <div className="container-fluid ">
+        <div className="container pb-5 ">
           <div className="row">
             <FormContact />
           </div>

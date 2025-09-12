@@ -7,10 +7,18 @@ import Footer from "./Footer";
 
 export default function DefaultLayout() {
   return (
-    <>
-      <Header />
-      <Outlet />
-      <Footer />
-    </>
+    <div className="d-flex flex-column min-vh-100">
+      <header>
+        <Header />
+      </header>
+      <main className="flex-grow-1">
+        <div className="container py-4">
+          <Outlet />
+        </div>
+      </main>
+      <footer>
+        <Footer />
+      </footer>
+    </div>
   );
 }

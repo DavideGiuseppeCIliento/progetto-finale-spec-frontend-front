@@ -1,18 +1,29 @@
 // # IMPORT DEPENDENCES
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { createPortal } from "react-dom";
 
 // # IMPORT HOOKS
 import useGames from "../hooks/useGames";
 import ModalCompare from "../components/ModalCompare";
 
+// # IMPORT CONTEXT
+import { WishlistContext } from "../contexts/wishlistContext";
+import { CartContext } from "../contexts/CartContext";
+
 export default function DetailGamePage() {
   const { gameDetail, ApiRequestDetail } = useGames(); // Importo GAMES (1 game) e Funzione richiesta API
   const { id } = useParams();
 
   const [show, setShow] = useState(false);
+
+  // CONTEXT DESTRUCTURING
+  const { wishlist, setWishlist } = useContext(WishlistContext);
+  const { cart, setCart } = useContext(CartContext);
+
+  const isInWishlist = wishlist.some((item) => item.id === Number(id));
+  const isInCart = cart.some((item) => item.id === Number(id));
 
   useEffect(() => {
     ApiRequestDetail(id);
@@ -22,7 +33,26 @@ export default function DetailGamePage() {
     return <div className="container py-5">Caricamento…</div>;
   }
 
-  console.log(gameDetail);
+  // --- GESTIONE WISHLIST
+  function handleWishlist(e) {
+    e.preventDefault?.();
+    e.stopPropagation?.(); // STOP propagazione su elemetni genitori
+    // console.log("CARICA FUNZIONE");
+
+    setWishlist(
+      (prev) =>
+        prev.some((x) => x.id === Number(id))
+          ? prev.filter((x) => x.id !== Number(id)) // Se esiste lo elimino
+          : [
+              ...prev,
+              {
+                title: gameDetail.title,
+                category: gameDetail.category,
+                id: gameDetail.id,
+              },
+            ] // Se non esiste lo aggiungo
+    );
+  }
 
   return (
     <div className="container py-5">
@@ -172,9 +202,23 @@ export default function DetailGamePage() {
               Acquista
             </button>
 
-            <button className="btn btn-outline-secondary rounded-4">
-              <i className="bi bi-heart me-1" />
-              Aggiungi ai preferiti
+            <button
+              type="button"
+              className="btn btn-link p-0 border-0  m-2 heart-btn"
+              aria-label="Aggiungi ai preferiti"
+              title="Aggiungi ai preferiti"
+            >
+              {!isInWishlist ? (
+                <i
+                  className="bi bi-heart fs-4 text-dark"
+                  onClick={handleWishlist}
+                ></i>
+              ) : (
+                <i
+                  className="bi bi-heart-fill fs-4 text-dark"
+                  onClick={handleWishlist}
+                ></i>
+              )}
             </button>
           </div>
         </div>
