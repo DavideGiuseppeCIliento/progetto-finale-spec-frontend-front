@@ -4,19 +4,34 @@ import { Link } from "react-router-dom";
 
 // # IMPORT CONTEXT
 import { WishlistContext } from "../contexts/wishlistContext";
+import { CartContext } from "../contexts/CartContext";
 
 function CardGame({ title, category, id }) {
   const { wishlist, setWishlist } = useContext(WishlistContext); // Valori CONTEXT
+  const { cart, setCart } = useContext(CartContext);
 
   const isInWishlist = wishlist.some((item) => item.id === id);
+  const isInCart = cart.some((item) => item.id === id);
 
   // --- GESTIONE WISHLIST
   function handleWishlist(e) {
     e.preventDefault?.();
     e.stopPropagation?.(); // STOP propagazione su elemetni genitori
-    console.log("CARICA FUNZIONE");
+    // console.log("CARICA FUNZIONE");
 
     setWishlist(
+      (prev) =>
+        prev.some((x) => x.id === id)
+          ? prev.filter((x) => x.id !== id) // Se esiste lo elimino
+          : [...prev, { title, category, id }] // Se non esiste lo aggiungo
+    );
+  }
+
+  // --- GESTIONE CART LIST
+  function handleCartList(e) {
+    e.preventDefault?.();
+    e.stopPropagation?.(); // STOP propagazione su elemetni genitori
+    setCart(
       (prev) =>
         prev.some((x) => x.id === id)
           ? prev.filter((x) => x.id !== id) // Se esiste lo elimino
@@ -40,24 +55,50 @@ function CardGame({ title, category, id }) {
       </div>
 
       {/* Cuore in basso a destra */}
-      <button
-        type="button"
-        className="btn btn-link p-0 border-0 position-absolute bottom-0 end-0 m-2 heart-btn"
-        aria-label="Aggiungi ai preferiti"
-        title="Aggiungi ai preferiti"
+      <div
+        className="position-absolute bottom-0 end-0 m-2 d-flex  align-items-end gap-2"
+        style={{ zIndex: 1 }}
       >
-        {!isInWishlist ? (
-          <i
-            className="bi bi-heart fs-4 text-dark"
-            onClick={handleWishlist}
-          ></i>
-        ) : (
-          <i
-            className="bi bi-heart-fill fs-4 text-dark"
-            onClick={handleWishlist}
-          ></i>
-        )}
-      </button>
+        <button
+          type="button"
+          className="btn btn-link p-0 border-0  m-2 heart-btn"
+          aria-label="Aggiungi ai preferiti"
+          title="Aggiungi ai preferiti"
+        >
+          {!isInWishlist ? (
+            <i
+              className="bi bi-heart fs-4 text-dark"
+              onClick={handleWishlist}
+            ></i>
+          ) : (
+            <i
+              className="bi bi-heart-fill fs-4 text-dark"
+              onClick={handleWishlist}
+            ></i>
+          )}
+        </button>
+
+        {/* Carrello in basso a destra */}
+
+        <button
+          type="button"
+          className="btn btn-link p-0 border-0  m-2 heart-btn"
+          aria-label="Aggiungi ai preferiti"
+          title="Aggiungi ai preferiti"
+        >
+          {!isInCart ? (
+            <i
+              className="bi bi-cart fs-4 text-dark"
+              onClick={handleCartList}
+            ></i>
+          ) : (
+            <i
+              className="bi bi-cart-fill fs-4 text-dark"
+              onClick={handleCartList}
+            ></i>
+          )}
+        </button>
+      </div>
     </div>
   );
 }

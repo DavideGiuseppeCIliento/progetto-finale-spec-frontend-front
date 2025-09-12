@@ -4,6 +4,7 @@ import { useState, useContext, useMemo } from "react";
 
 // # IMPORT CONTEXT
 import { WishlistContext } from "../contexts/wishlistContext";
+import { CartContext } from "../contexts/CartContext";
 
 export default function Header() {
   const location = useLocation(); // Leggiamo l'url per il colore dell'header
@@ -11,7 +12,9 @@ export default function Header() {
 
   // --- GESTIONE CUORE WISHLIST
   const { wishlist } = useContext(WishlistContext);
+  const { cart } = useContext(CartContext);
   const isWishlistFull = wishlist.length > 0;
+  const isCartFull = cart.length > 0;
 
   return (
     <nav
@@ -90,10 +93,20 @@ export default function Header() {
           </NavLink>
         </div>
 
+        {/* GESTIONE ICCONE CART + WISHLIST */}
         <div className="d-flex gap-3 ms-3">
-          <NavLink to="/cart" className="text-white fs-5">
-            <i className="bi bi-cart"></i>
-          </NavLink>
+          {!isCartFull ? (
+            <NavLink to="/cart" className="text-white fs-5">
+              <i className="bi bi-cart fs-4 text-light"></i>
+            </NavLink>
+          ) : (
+            <NavLink to="/cart" className="text-white fs-5">
+              <i className="bi bi-cart-fill fs-4 text-light"></i>
+              <span class="badge text-bg-warning gadge-cart">
+                {cart.length}
+              </span>
+            </NavLink>
+          )}
           {!isWishlistFull ? (
             <NavLink to="/wishlist" className="text-white fs-5">
               <i className="bi bi-heart fs-4 text-light"></i>

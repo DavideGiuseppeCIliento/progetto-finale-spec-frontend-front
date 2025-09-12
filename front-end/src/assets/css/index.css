@@ -64,6 +64,12 @@ p {
   box-shadow: none; /* rimuove glow blu Bootstrap */
 }
 
+/* ##BANDGE CART */
+.gadge-cart {
+  margin-left: -5px;
+  padding: 2px 8px 2px 8px;
+}
+
 /* --- HOMEPAGE */
 /* Cursore tondo in hero */
 .custom-cursor {

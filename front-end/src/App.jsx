@@ -12,20 +12,23 @@ import DefaultLayout from "./layouts/DefaultLayout";
 
 // # IMPORT CONTEXT PROVIDER
 import { WishlistProvider } from "./contexts/wishlistContext";
+import { CartProvider } from "./contexts/CartContext";
 
 export default function App() {
   return (
     <WishlistProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<DefaultLayout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/games" element={<GamesPage />} />
-            <Route path="/games/:id" element={<DetailGamePage />} />
-            <Route path="/wishlist" element={<WishlistPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <CartProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<DefaultLayout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/games" element={<GamesPage />} />
+              <Route path="/games/:id" element={<DetailGamePage />} />
+              <Route path="/wishlist" element={<WishlistPage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
     </WishlistProvider>
   );
 }
