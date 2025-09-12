@@ -1,17 +1,26 @@
 // # IMPORT DIPENDENCES
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 // # IMPORT COMPONENTS
 import CardGame from "../components/CardGame";
 
 // # IMPORT HOOKS
 import useGames from "../hooks/useGames";
+import useDebounceValue from "../hooks/useDebounceValue";
 
 export default function GamesPage() {
   const { allGames, games, getFilteredGames } = useGames(); // GAMES PRESI DA HOOK PERSONALIZZATO
   const [inputValue, setInputValue] = useState("");
   const [categorySelected, setCategorySelected] = useState("");
   const [sort, setSort] = useState("name");
+
+  // debounce dell’input
+  const debouncedSearch = useDebounceValue(inputValue, 400);
+
+  // quando cambia il valore debounced O la categoria → chiama API
+  useEffect(() => {
+    getFilteredGames(debouncedSearch, categorySelected);
+  }, [debouncedSearch, categorySelected]);
 
   // --- ORDINAMENTO GAMES
   const sortedGames = useMemo(() => {
@@ -49,7 +58,6 @@ export default function GamesPage() {
   function handleInput(e) {
     const value = e.target.value;
     setInputValue(value);
-    getFilteredGames(value, categorySelected); // Metti value perché l'API deve partire subito
   }
 
   // --- FUNZIONE GESTIONE FORM INVIO

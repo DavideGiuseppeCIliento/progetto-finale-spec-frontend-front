@@ -38,6 +38,7 @@ export default function useGames() {
   }
 
   //  --- FUNZIONE GET FILTER GAMES
+
   async function getFilteredGames(inputValue, categorySelected) {
     try {
       const search = (inputValue || "").trim(); // stringa o ""

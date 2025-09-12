@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 
 // # IMPORT HOOKS
 import useGames from "../hooks/useGames";
+import useDebounceValue from "../hooks/useDebounceValue";
 
 // # IMPORT COMPONENTS
 import ItemBCompare from "./ItemBCompare";
@@ -11,19 +12,28 @@ import ItemBCompare from "./ItemBCompare";
 export default function ModalCompare({ open, onClose, gameA }) {
   if (!open) return null;
 
-  const { games } = useGames(); // Prendop i games dall'HOOK
+  const { games, getFilteredGames } = useGames(); // Prendop i games dall'HOOK
 
   const [inputValue, setInputValue] = useState("");
-  const [filteredGames, setFilteredGames] = useState([]);
   const [idItemB, setIdItemB] = useState(null);
 
+  // debounce dell’input
+  const debouncedSearch = useDebounceValue(inputValue, 400);
+
+  // quando cambia il valore debounced O la categoria → chiama API
   useEffect(() => {
-    setFilteredGames(
-      games.filter((g) =>
-        g.title.toLowerCase().includes(inputValue.toLowerCase())
-      )
-    );
-  }, [inputValue]);
+    getFilteredGames(debouncedSearch);
+  }, [debouncedSearch]);
+
+  // --- GAMES FILTRATI
+
+  function handleFilteredGames(e) {
+    setInputValue(e.target.value);
+    // getFilteredGames(e.target.value);
+  }
+
+  //   ESCLUDO IL GIOCO A
+  const list = games.filter((g) => g.id !== gameA.id);
 
   return (
     <>
@@ -168,7 +178,7 @@ export default function ModalCompare({ open, onClose, gameA }) {
                           placeholder="Cerca un gioco da confrontare…"
                           aria-label="Cerca gioco"
                           value={inputValue}
-                          onChange={(e) => setInputValue(e.target.value)}
+                          onChange={handleFilteredGames}
                         />
                       </div>
 
@@ -177,8 +187,8 @@ export default function ModalCompare({ open, onClose, gameA }) {
                         {/* ================= FILTRAGGIO CON INPUT DEI RISULTATI! */}
                         {/* Gestisco i vari casi con "Inizia a cercare, "Nessun risultato" e Risultato esiste */}
                         {inputValue ? (
-                          filteredGames.length > 0 ? (
-                            filteredGames.map((g) => (
+                          list.length > 0 ? (
+                            list.map((g) => (
                               <div
                                 key={g.id ?? g.title}
                                 className="list-group-item d-flex align-items-center justify-content-between"
