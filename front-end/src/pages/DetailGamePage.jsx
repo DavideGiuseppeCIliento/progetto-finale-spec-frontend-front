@@ -1,14 +1,18 @@
 // # IMPORT DEPENDENCES
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 // # IMPORT HOOKS
 import useGames from "../hooks/useGames";
-import { useEffect } from "react";
+import ModalCompare from "../components/ModalCompare";
 
 export default function DetailGamePage() {
   const { gameDetail, ApiRequestDetail } = useGames(); // Importo GAMES (1 game) e Funzione richiesta API
   const { id } = useParams();
+
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     ApiRequestDetail(id);
@@ -42,9 +46,11 @@ export default function DetailGamePage() {
         )}
 
         <div className="ms-auto d-flex gap-2">
+          {/* =================== GESTIONE COMPARATORE ==================== */}
           <button
             type="button"
             className="btn btn-outline-secondary btn-sm rounded-4"
+            onClick={() => setShow(true)}
           >
             <i className="bi bi-bar-chart-steps me-1" />
             Confronta
@@ -173,6 +179,17 @@ export default function DetailGamePage() {
           </div>
         </div>
       </div>
+
+      {/* PORTAL MODALE ====================== */}
+      {show &&
+        createPortal(
+          <ModalCompare
+            open={show}
+            onClose={() => setShow(false)}
+            gameA={gameDetail}
+          />,
+          document.body
+        )}
     </div>
   );
 }
