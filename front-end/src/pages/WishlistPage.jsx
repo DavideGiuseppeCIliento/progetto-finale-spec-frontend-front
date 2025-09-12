@@ -16,10 +16,9 @@ export default function WishlistPage() {
   //   console.log("ELEMENTO ", wishlist[0]);
 
   // --- SVUOTAMENTO WISHLIST
-  function handleClearWishlist() {}
-
-  // --- RIMUOVI ELEMENTO WISHLIST
-  function handleRemoveItem(e) {}
+  function handleClearWishlist(e) {
+    setWishlist([]);
+  }
 
   return (
     <div className="container py-5">
@@ -27,7 +26,7 @@ export default function WishlistPage() {
       <div className="d-flex flex-wrap align-items-center gap-3 mb-4">
         <div className="d-flex align-items-center gap-3">
           <h1 className="mb-0">Wishlist</h1>
-          <span className="badge text-bg-primary">{wishlist?.length ?? 0}</span>
+          <span className="badge text-bg-warning">{wishlist?.length ?? 0}</span>
         </div>
 
         <div className="ms-auto d-flex gap-2">
@@ -38,10 +37,8 @@ export default function WishlistPage() {
           <button
             type="button"
             className="btn btn-outline-danger"
-            // TODO: collega allo svuotamento (clear)
-            onClick={() => {
-              handleClearWishlist;
-            }}
+            // ## SVUOTAMENTO
+            onClick={handleClearWishlist}
             disabled={!hasItems}
             title="Svuota wishlist"
           >
@@ -57,9 +54,9 @@ export default function WishlistPage() {
           <div className="display-6 mb-2">La tua wishlist è vuota</div>
           <p className="mb-4">
             Aggiungi titoli ai preferiti cliccando il{" "}
-            <i className="bi bi-heart text-danger" /> sulle card.
+            <i className="bi bi-heart text-dark" /> sulle card.
           </p>
-          <NavLink to="/games" className="btn btn-primary">
+          <NavLink to="/games" className="btn btn-dark rounded-4">
             Scopri i giochi
           </NavLink>
         </div>
