@@ -63,5 +63,40 @@ export default function useGames() {
     }
   }
 
-  return { allGames, games, gameDetail, getFilteredGames, ApiRequestDetail };
+  //  --- FUNZIONE DELATE
+  async function deleteGame(id) {
+    try {
+      setAllGames((prev) => prev.filter((g) => g.id !== id));
+      setGames((prev) => prev.filter((g) => g.id !== id));
+      const res = await axios.delete(`${VITE_API_URL}/games/${id}`);
+    } catch (err) {
+      console.error("Problema nella richiesta GET");
+    }
+  }
+
+  //  --- FUNZIONE POST GAME
+  async function postGame(payload) {
+    try {
+      const res = await axios.post(`${VITE_API_URL}/games/`, payload);
+
+      const created = res.data?.game;
+      if (!created) throw new Error("Risposta inattesa dal server");
+
+      // aggiorno lo stato locale
+      setAllGames((prev) => [...prev, created]);
+      setGames((prev) => [...prev, created]);
+    } catch (err) {
+      console.error("POST fallita", err.response?.status, err.response?.data);
+    }
+  }
+
+  return {
+    allGames,
+    games,
+    gameDetail,
+    getFilteredGames,
+    ApiRequestDetail,
+    deleteGame,
+    postGame,
+  };
 }

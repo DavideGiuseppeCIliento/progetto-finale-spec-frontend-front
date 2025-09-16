@@ -9,4 +9,6 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 // FILE CSS PERSONALIZZATO
 import "./assets/css/index.css";
 
+import "./back-office/assets/css/admin.css";
+
 createRoot(document.getElementById("root")).render(<App />);

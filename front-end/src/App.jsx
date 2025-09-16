@@ -9,8 +9,13 @@ import WishlistPage from "./pages/WishlistPage";
 import CartPage from "./pages/CartPage";
 import ContactsPage from "./pages/ContactsPage";
 
+import DashboardPage from "./back-office/pages/dashboardPage";
+import GameListPage from "./back-office/pages/GameListPage";
+import NewGamePage from "./back-office/pages/NewGamePage";
+
 // # IMPORT LAYOUT
 import DefaultLayout from "./layouts/DefaultLayout";
+import AdminLayout from "./back-office/layout/AdminLayout";
 
 // # IMPORT CONTEXT PROVIDER
 import { WishlistProvider } from "./contexts/wishlistContext";
@@ -29,6 +34,13 @@ export default function App() {
               <Route path="/wishlist" element={<WishlistPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/contacts" element={<ContactsPage />} />
+            </Route>
+
+            {/* area admin */}
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<DashboardPage />} />
+              <Route path="productsList" element={<GameListPage />} />
+              <Route path="newGame" element={<NewGamePage />} />
             </Route>
           </Routes>
         </BrowserRouter>
