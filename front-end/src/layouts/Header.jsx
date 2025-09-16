@@ -67,9 +67,9 @@ export default function Header() {
               className={({ isActive }) =>
                 `nav-link ${isActive ? "active fw-bold" : ""}`
               }
-              to="/popular"
+              to="/contacts"
             >
-              Popular
+              Contacts
             </NavLink>
           </li>
         </ul>

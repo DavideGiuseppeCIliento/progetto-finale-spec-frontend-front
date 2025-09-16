@@ -10,6 +10,11 @@ export default function CartPage() {
 
   const hasItems = Array.isArray(cart) && cart.length > 0;
 
+  // --- RIMPOZIONE ITEM
+  function handleRemove(id) {
+    setCart((prev) => prev.filter((item) => String(item.id) !== String(id)));
+  }
+
   return (
     <div className="container py-5">
       <div className="d-flex flex-wrap align-items-center gap-3 mb-4">

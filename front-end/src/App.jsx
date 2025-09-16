@@ -7,6 +7,7 @@ import GamesPage from "./pages/GamesPage";
 import DetailGamePage from "./pages/DetailGamePage";
 import WishlistPage from "./pages/WishlistPage";
 import CartPage from "./pages/CartPage";
+import ContactsPage from "./pages/ContactsPage";
 
 // # IMPORT LAYOUT
 import DefaultLayout from "./layouts/DefaultLayout";
@@ -27,6 +28,7 @@ export default function App() {
               <Route path="/games/:id" element={<DetailGamePage />} />
               <Route path="/wishlist" element={<WishlistPage />} />
               <Route path="/cart" element={<CartPage />} />
+              <Route path="/contacts" element={<ContactsPage />} />
             </Route>
           </Routes>
         </BrowserRouter>
