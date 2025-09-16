@@ -1,6 +1,6 @@
 // # IMPORT DIPENDENCES
-import { NavLink, useLocation } from "react-router-dom";
-import { useState, useContext, useMemo } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
 
 // # IMPORT CONTEXT
 import { WishlistContext } from "../contexts/wishlistContext";
@@ -15,6 +15,15 @@ export default function Header() {
   const { cart } = useContext(CartContext);
   const isWishlistFull = wishlist.length > 0;
   const isCartFull = cart.length > 0;
+
+  // --- GESTIONE REINDIRIZZAMENTO INPUT
+  const [inputValue, setInputValue] = useState("");
+  const navigate = useNavigate();
+
+  function redirectSearchGame(e) {
+    e.preventDefault();
+    navigate(`/games?search=${inputValue}`); // Passo la query
+  }
 
   return (
     <nav
@@ -74,23 +83,35 @@ export default function Header() {
           </li>
         </ul>
 
-        {/* Input di destra */}
-        <form className="d-flex align-items-center" role="search">
+        {/* ================= Input di destra ===============*/}
+        <form
+          className="d-flex align-items-center"
+          role="search"
+          onSubmit={redirectSearchGame}
+        >
           <input
             className="form-control me-2 search-input-home"
             type="search"
             placeholder="Ricerca"
             aria-label="Search"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
           />
           {/* Icone social */}
         </form>
         <div className="d-flex gap-3 ms-3">
-          <NavLink to="/facebook" className="text-white fs-5">
+          <a
+            href="https://www.facebook.com/profile.php?id=100001672939389"
+            className="text-white fs-5"
+          >
             <i className="bi bi-facebook"></i>
-          </NavLink>
-          <NavLink to="/instagram" className="text-white fs-5">
+          </a>
+          <a
+            to="https://www.facebook.com/profile.php?id=100001672939389"
+            className="text-white fs-5"
+          >
             <i className="bi bi-instagram"></i>
-          </NavLink>
+          </a>
         </div>
 
         {/* GESTIONE ICCONE CART + WISHLIST */}

@@ -1,4 +1,5 @@
 // # IMPORT DIPENDENCES
+import { useSearchParams } from "react-router-dom";
 import { useState, useMemo, useEffect } from "react";
 
 // # IMPORT COMPONENTS
@@ -13,6 +14,13 @@ export default function GamesPage() {
   const [inputValue, setInputValue] = useState("");
   const [categorySelected, setCategorySelected] = useState("");
   const [sort, setSort] = useState("name");
+
+  // ## GESTIONE QUERY DA HEADER
+  const [searchParams] = useSearchParams(); // Prendo la query dall'URL
+  useEffect(() => {
+    const search = searchParams.get("search") || "";
+    getFilteredGames(search);
+  }, [searchParams]);
 
   // debounce dell’input
   const debouncedSearch = useDebounceValue(inputValue, 400);
