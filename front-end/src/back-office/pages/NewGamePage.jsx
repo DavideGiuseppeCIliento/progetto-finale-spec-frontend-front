@@ -122,7 +122,7 @@ export default function NewGamePage() {
     };
 
     const created = await postGame(payload);
-    console.alert("GIOCO CARICATO CON SUCCESSO!");
+    alert("GIOCO CARICATO CON SUCCESSO!");
     handleReset();
   }
 
