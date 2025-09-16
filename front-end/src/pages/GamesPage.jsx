@@ -15,15 +15,58 @@ export default function GamesPage() {
   const [categorySelected, setCategorySelected] = useState("");
   const [sort, setSort] = useState("name");
 
-  // ## GESTIONE QUERY DA HEADER
-  const [searchParams] = useSearchParams(); // Prendo la query dall'URL
-  useEffect(() => {
-    const search = searchParams.get("search") || "";
-    getFilteredGames(search);
-  }, [searchParams]);
-
   // debounce dell’input
   const debouncedSearch = useDebounceValue(inputValue, 400);
+
+  // --- MONTAGGIO INIZIALE PER LA CONDIVISIONE URL
+  useEffect(() => {
+    // solo on mount
+    const s = searchParams.get("search") || "";
+    const c = searchParams.get("category") || "";
+    const so = searchParams.get("sort") || "name";
+
+    setInputValue(s);
+    setCategorySelected(c);
+    setSort(so);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ## GESTIONE QUERY DA HEADER
+  const [searchParams, setSearchParams] = useSearchParams(); // Prendo la query dall'URL
+  useEffect(() => {
+    const search = searchParams.get("search") || "";
+    const category = searchParams.get("category") || "";
+    getFilteredGames(search, category);
+  }, [searchParams]);
+
+  // ## GESTIONE QUERY IN URL
+  useEffect(() => {
+    const url = new URLSearchParams(searchParams);
+
+    // search
+    if (inputValue && inputValue.trim() !== "") {
+      url.set("search", inputValue.trim());
+    } else {
+      url.delete("search");
+    }
+
+    // category (una sola categoria, stringa)
+    if (categorySelected) {
+      url.set("category", categorySelected);
+    } else {
+      url.delete("category");
+    }
+
+    // sort (opzionale: persistilo in URL solo se diverso dal default)
+    if (sort && sort !== "name") {
+      url.set("sort", sort);
+    } else {
+      url.delete("sort");
+    }
+
+    // Scrive nell’URL senza aggiungere una nuova voce nella history
+    setSearchParams(url, { replace: true });
+  }, [debouncedSearch, categorySelected, sort, searchParams]);
 
   // quando cambia il valore debounced O la categoria → chiama API
   useEffect(() => {
