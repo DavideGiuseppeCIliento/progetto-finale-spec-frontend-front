@@ -12,9 +12,7 @@ export default function DefaultLayout() {
         <Header />
       </header>
       <main className="flex-grow-1">
-        <div className="container py-4">
-          <Outlet />
-        </div>
+        <Outlet />
       </main>
       <footer>
         <Footer />
