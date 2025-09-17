@@ -25,13 +25,13 @@ export default function AdminLayout() {
               to="/admin/productsList"
               className="list-group-item list-group-item-action"
             >
-              Giochi
+              Prodotti
             </NavLink>
             <NavLink
               to="/admin/newGame"
               className="list-group-item list-group-item-action"
             >
-              Nuovo gioco
+              Nuovo Prodotto
             </NavLink>
             <a href="/" className="list-group-item list-group-item-action">
               Vedi il sito

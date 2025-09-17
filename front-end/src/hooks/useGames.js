@@ -90,6 +90,26 @@ export default function useGames() {
     }
   }
 
+  //  --- FUNZIONE UPDATE GAME
+  async function updateGame(id, changes) {
+    try {
+      const body = { ...gameDetail, ...changes };
+      // opzionale: non inviare timestamp
+      delete body.createdAt;
+      delete body.updatedAt;
+
+      const res = await axios.put(`${VITE_API_URL}/games/${id}`, body);
+      const updated = res.data.game; // Prendi la risp per aggiornare la UI
+      console.log("UPDATE - RISPOSTA: ", updated);
+
+      setAllGames((prev) => prev.map((g) => (g.id === id ? updated : g)));
+      setGames((prev) => prev.map((g) => (g.id === id ? updated : g)));
+      setGameDetail(updated);
+    } catch (err) {
+      console.error("PUT fallita", err.response?.status, err.response?.data);
+    }
+  }
+
   return {
     allGames,
     games,
@@ -98,5 +118,6 @@ export default function useGames() {
     ApiRequestDetail,
     deleteGame,
     postGame,
+    updateGame,
   };
 }
