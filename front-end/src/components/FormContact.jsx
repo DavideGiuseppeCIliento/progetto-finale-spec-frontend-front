@@ -1,4 +1,91 @@
+//  # IMPORT DEPENDENCES
+import { useState } from "react";
+
+// # INITIAL DATA
+const initialFormData = {
+  name: "",
+  mail: "",
+  object: "",
+  message: "",
+  privacy: false,
+};
+
+const EMPTY_ERRORS = {
+  name: "",
+  mail: "",
+  object: "",
+  message: "",
+  privacy: "",
+};
+
 export default function FormContact() {
+  const [formValue, setFormValue] = useState(initialFormData);
+  const [errorMessage, setErrorMessage] = useState(EMPTY_ERRORS);
+
+  // --- Gestione INPUT
+  function handleInput(e) {
+    const { name, value, type, checked } = e.target;
+
+    setFormValue((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  }
+
+  // --- Gestione SUBMIT
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const ok = formValidation(formValue);
+    if (!ok) return;
+
+    alert("Form Inviato con successo!");
+    setFormValue(initialFormData);
+  }
+
+  // --- GESTIONE ERRORI FORM
+  function formValidation(formValue) {
+    const errs = { ...EMPTY_ERRORS };
+
+    const name = (formValue.name ?? "").trim();
+    const mail = (formValue.mail ?? "").trim();
+    const object = (formValue.object ?? "").trim();
+    const message = (formValue.message ?? "").trim();
+
+    // RegExp
+    const nameRe = /^[A-Za-zÀ-ÖØ-öø-ÿ'’\s-]{3,}$/u;
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+    // Presenza
+    if (!name) errs.name = "Il nome non è presente";
+    if (!mail) errs.mail = "La mail non è presente";
+    if (!object) errs.object = "L’oggetto non è presente";
+    if (!message) errs.message = "Il messaggio non è presente";
+
+    // Lunghezze minime
+    if (!errs.name && name.length < 3)
+      errs.name = "Il nome è troppo breve (min 3)";
+    if (!errs.mail && mail.length < 3)
+      errs.mail = "La mail è troppo breve (min 3)";
+    if (!errs.object && object.length < 3)
+      errs.object = "L’oggetto è troppo breve (min 3)";
+    if (!errs.message && message.length < 3)
+      errs.message = "Il messaggio è troppo breve (min 3)";
+
+    // Pattern
+    if (!errs.name && !nameRe.test(name))
+      errs.name = "Nome non valido (min 3 lettere)";
+    if (!errs.mail && !emailRe.test(mail))
+      errs.mail = "Formato email non valido";
+
+    setErrorMessage(errs);
+
+    const hasErrors = Object.values(errs).some(Boolean);
+    return !hasErrors;
+  }
+
+  const hasErrors = Object.values(errorMessage).some(Boolean);
+
   return (
     <section className="container py-5">
       <div className="row g-4">
@@ -39,7 +126,18 @@ export default function FormContact() {
         <div className="col-12 col-lg-7">
           <div className="card border-0 shadow-sm">
             <div className="card-body p-4 p-md-5">
-              <form noValidate>
+              {hasErrors && (
+                <div className="card bg-danger text-white">
+                  <ul>
+                    {errorMessage.name && <li>{errorMessage.name}</li>}
+                    {errorMessage.mail && <li>{errorMessage.mail}</li>}
+                    {errorMessage.object && <li>{errorMessage.object}</li>}
+                    {errorMessage.message && <li>{errorMessage.message}</li>}
+                  </ul>
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} noValidate>
                 <div className="row g-3">
                   {/* Nome */}
                   <div className="col-12 col-md-6">
@@ -51,6 +149,9 @@ export default function FormContact() {
                       id="name"
                       className="form-control"
                       placeholder="Il tuo nome"
+                      name="name"
+                      value={formValue.name}
+                      onChange={handleInput}
                       required
                     />
                   </div>
@@ -65,6 +166,9 @@ export default function FormContact() {
                       id="email"
                       className="form-control"
                       placeholder="nome@esempio.com"
+                      name="mail"
+                      value={formValue.mail}
+                      onChange={handleInput}
                       required
                     />
                   </div>
@@ -79,6 +183,9 @@ export default function FormContact() {
                       id="subject"
                       className="form-control"
                       placeholder="Come possiamo aiutarti?"
+                      name="object"
+                      value={formValue.object}
+                      onChange={handleInput}
                       required
                     />
                   </div>
@@ -93,6 +200,9 @@ export default function FormContact() {
                       className="form-control"
                       rows="5"
                       placeholder="Scrivi il tuo messaggio…"
+                      name="message"
+                      value={formValue.message}
+                      onChange={handleInput}
                       required
                     ></textarea>
                   </div>
@@ -104,6 +214,9 @@ export default function FormContact() {
                         className="form-check-input"
                         type="checkbox"
                         id="privacy"
+                        name="privacy"
+                        checked={formValue.privacy}
+                        onChange={handleInput}
                         required
                       />
                       <label className="form-check-label" htmlFor="privacy">
