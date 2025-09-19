@@ -15,8 +15,8 @@ function CardGame({ title, category, id }) {
 
   // --- GESTIONE WISHLIST
   function handleWishlist(e) {
-    e.preventDefault?.();
-    e.stopPropagation?.(); // STOP propagazione su elemetni genitori
+    e.preventDefault();
+
     // console.log("CARICA FUNZIONE");
 
     setWishlist(
@@ -29,8 +29,8 @@ function CardGame({ title, category, id }) {
 
   // --- GESTIONE CART LIST
   function handleCartList(e) {
-    e.preventDefault?.();
-    e.stopPropagation?.(); // STOP propagazione su elemetni genitori
+    e.preventDefault();
+
     setCart(
       (prev) =>
         prev.some((x) => x.id === id)
@@ -49,10 +49,7 @@ function CardGame({ title, category, id }) {
           <strong>{title.toUpperCase()}</strong>
         </h5>
         <p className="card-text">{category}</p>
-        <Link
-          to={`${id}`}
-          className="btn btn-dark bg-gradient rounded-4"
-        >
+        <Link to={`${id}`} className="btn btn-dark bg-gradient rounded-4">
           Scopri di più
         </Link>
       </div>

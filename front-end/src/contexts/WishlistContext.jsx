@@ -15,10 +15,6 @@ export function WishlistProvider({ children }) {
     }
   });
 
-  //   useEffect(() => {
-  //     console.log("WISHLIST", wishlist);
-  //   }, [wishlist]);
-
   //  --- Salva su LOCALSTORAGE quando cambia wishlist
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(wishlist)); // Quando cambia wishlist salvo
