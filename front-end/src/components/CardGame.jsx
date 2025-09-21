@@ -1,5 +1,5 @@
 // # IMPORT DIPENDENCES
-import { memo, useContext, useEffect } from "react";
+import { memo, useContext } from "react";
 import { Link } from "react-router-dom";
 
 // # IMPORT CONTEXT

@@ -16,7 +16,7 @@ export default function GamesPage() {
   const [sort, setSort] = useState("name");
 
   // debounce dell’input
-  const debouncedSearch = useDebounceValue(inputValue, 400);
+  const debouncedSearch = useDebounceValue(inputValue, 400); // Ritorna il valore da debounce
 
   // --- MONTAGGIO INIZIALE PER LA CONDIVISIONE URL
   useEffect(() => {
@@ -28,7 +28,6 @@ export default function GamesPage() {
     setInputValue(s);
     setCategorySelected(c);
     setSort(so);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ## GESTIONE QUERY DA HEADER
@@ -41,13 +40,14 @@ export default function GamesPage() {
 
   // ## GESTIONE QUERY IN URL
   useEffect(() => {
+    // Clono gli attuali parametri dall’URL
     const url = new URLSearchParams(searchParams);
 
     // search
     if (inputValue && inputValue.trim() !== "") {
-      url.set("search", inputValue.trim());
+      url.set("search", inputValue.trim()); // Salvo in url se search è pieno
     } else {
-      url.delete("search");
+      url.delete("search"); // Rimuovo se nell'aggiornamento è vuoto
     }
 
     // category (una sola categoria, stringa)
@@ -57,7 +57,7 @@ export default function GamesPage() {
       url.delete("category");
     }
 
-    // sort (opzionale: persistilo in URL solo se diverso dal default)
+    // sort (lascio in URL solo se diverso dal default)
     if (sort && sort !== "name") {
       url.set("sort", sort);
     } else {
@@ -94,7 +94,7 @@ export default function GamesPage() {
   // --- CREAZIONE ARRAY CATEGORIE
   const categories = useMemo(() => {
     // USE MEMO RICALCOLA ARRAY SOLO SE CAMBIA GAMES
-    const cat = Array.from(new Set(allGames.map((g) => g.category))).sort();
+    const cat = Array.from(new Set(allGames.map((g) => g.category))).sort(); // Set elimina duplicati e Array.from crea l'array
     return [...cat];
   }, [allGames]);
 

@@ -1,6 +1,6 @@
 // # IMPORT DIPENDENCES
 import { useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 // # IMPORT CONTEXT
 import { WishlistContext } from "../contexts/wishlistContext";
