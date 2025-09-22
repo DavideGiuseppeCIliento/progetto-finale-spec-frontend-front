@@ -14,29 +14,26 @@ import { CartContext } from "../contexts/CartContext";
 
 export default function DetailGamePage() {
   const { gameDetail, ApiRequestDetail } = useGames(); // Importo GAMES (1 game) e Funzione richiesta API
-  const { id } = useParams();
+  const { id } = useParams(); // id preso dall’URL (stringa)
 
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false); // visibilità del modale di confronto
 
-  // CONTEXT DESTRUCTURING
+  // ## CONTEXT DESTRUCTURING: wishlist e carrello globali
   const { wishlist, setWishlist } = useContext(WishlistContext);
   const { cart, setCart } = useContext(CartContext);
 
+  // Flag di stato: l’item è già in wishlist/carrello?
   const isInWishlist = wishlist.some((item) => item.id === Number(id));
   const isInCart = cart.some((item) => item.id === Number(id));
 
+  // Al mount o quando cambia l'id, carico il dettaglio dal backend
   useEffect(() => {
     ApiRequestDetail(id);
   }, [id]);
 
-  if (!gameDetail) {
-    return <div className="container py-5">Caricamento…</div>;
-  }
-
   // --- GESTIONE WISHLIST
   function handleWishlist(e) {
     e.preventDefault?.();
-    e.stopPropagation?.(); // STOP propagazione su elemetni genitori
     // console.log("CARICA FUNZIONE");
 
     setWishlist(
@@ -57,7 +54,6 @@ export default function DetailGamePage() {
   // --- GESTIONE CART LIST
   function handleCartList(e) {
     e.preventDefault?.();
-    e.stopPropagation?.(); // STOP propagazione su elemetni genitori
     setCart(
       (prev) =>
         prev.some((x) => x.id === Number(id))
@@ -71,6 +67,11 @@ export default function DetailGamePage() {
               },
             ] // Se non esiste lo aggiungo
     );
+  }
+
+  //   Loading mentre il dettaglio non c’è ancora
+  if (!gameDetail) {
+    return <div className="container py-5">Caricamento…</div>;
   }
 
   return (

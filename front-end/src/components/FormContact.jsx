@@ -2,6 +2,7 @@
 import { useState } from "react";
 
 // # INITIAL DATA
+// Stato iniziale del form: tutti i campi vuoti + privacy non accettata
 const initialFormData = {
   name: "",
   mail: "",
@@ -10,6 +11,7 @@ const initialFormData = {
   privacy: false,
 };
 
+// Oggetto “vuoto” per i messaggi di errore, una chiave per campo
 const EMPTY_ERRORS = {
   name: "",
   mail: "",
@@ -19,8 +21,8 @@ const EMPTY_ERRORS = {
 };
 
 export default function FormContact() {
-  const [formValue, setFormValue] = useState(initialFormData);
-  const [errorMessage, setErrorMessage] = useState(EMPTY_ERRORS);
+  const [formValue, setFormValue] = useState(initialFormData); // Stato controllato dei campi input
+  const [errorMessage, setErrorMessage] = useState(EMPTY_ERRORS); // Stato dei messaggi di errore (per campo)
 
   // --- Gestione INPUT
   function handleInput(e) {
@@ -28,7 +30,7 @@ export default function FormContact() {
 
     setFormValue((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === "checkbox" ? checked : value, // - se è una checkbox salvo true/false (checked), altrimenti VALUE
     }));
   }
 
@@ -36,8 +38,8 @@ export default function FormContact() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const ok = formValidation(formValue);
-    if (!ok) return;
+    const ok = formValidation(formValue); // Validazione: ritorna true se tutto ok
+    if (!ok) return; // se ci sono errori, interrompo
 
     alert("Form Inviato con successo!");
     setFormValue(initialFormData);
@@ -45,25 +47,27 @@ export default function FormContact() {
 
   // --- GESTIONE ERRORI FORM
   function formValidation(formValue) {
-    const errs = { ...EMPTY_ERRORS };
+    const errs = { ...EMPTY_ERRORS }; // Creo un oggetto locale per gli errori
 
+    // Normalizzo: stringhe senza spazi
     const name = (formValue.name ?? "").trim();
     const mail = (formValue.mail ?? "").trim();
     const object = (formValue.object ?? "").trim();
     const message = (formValue.message ?? "").trim();
 
     // RegExp
-    const nameRe = /^[A-Za-zÀ-ÖØ-öø-ÿ'’\s-]{3,}$/u;
-    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    const nameRe = /^[A-Za-zÀ-ÖØ-öø-ÿ'’\s-]{3,}$/u; // RegExp di base: nome (lettere, accenti, apostrofi, spazi, trattini) min 3
 
-    // Presenza
-    if (!name) errs.name = "Il nome non è presente";
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i; // Email basilare
+
+    // 1) Presenza: se vuoto -> messaggio
     if (!mail) errs.mail = "La mail non è presente";
     if (!object) errs.object = "L’oggetto non è presente";
     if (!message) errs.message = "Il messaggio non è presente";
 
-    // Lunghezze minime
+    // 2) Lunghezze minime (solo se non c'è già un errore su quel campo)
     if (!errs.name && name.length < 3)
+      // "controlla la lunghezza solo se non ho già impostato un errore per questo campo".
       errs.name = "Il nome è troppo breve (min 3)";
     if (!errs.mail && mail.length < 3)
       errs.mail = "La mail è troppo breve (min 3)";
@@ -72,19 +76,19 @@ export default function FormContact() {
     if (!errs.message && message.length < 3)
       errs.message = "Il messaggio è troppo breve (min 3)";
 
-    // Pattern
+    // 3) Pattern formali (solo se non ci sono già errori su quel campo)
     if (!errs.name && !nameRe.test(name))
       errs.name = "Nome non valido (min 3 lettere)";
     if (!errs.mail && !emailRe.test(mail))
       errs.mail = "Formato email non valido";
 
-    setErrorMessage(errs);
+    setErrorMessage(errs); // Aggiorno lo stato degli errori (per mostrare i messaggi)
 
-    const hasErrors = Object.values(errs).some(Boolean);
+    const hasErrors = Object.values(errs).some(Boolean); // true se esiste almeno un errore non-vuoto
     return !hasErrors;
   }
 
-  const hasErrors = Object.values(errorMessage).some(Boolean);
+  const hasErrors = Object.values(errorMessage).some(Boolean); // FLAG per mostrare il riquadro errori sopra il form
 
   return (
     <section className="container py-5">

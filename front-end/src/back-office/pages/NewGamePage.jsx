@@ -25,9 +25,10 @@ const MODES = ["Singleplayer", "Multiplayer", "Co-op", "Online"];
 const PEGI = [3, 7, 12, 16, 18];
 
 export default function NewGamePage() {
-  const { postGame } = useGames();
+  const { postGame } = useGames(); // funzione per creare un nuovo gioco
 
   const [form, setForm] = useState({
+    // Stato controllato del form (tutti i campi)
     title: "",
     category: "",
     platforms: [],
@@ -39,14 +40,14 @@ export default function NewGamePage() {
     pegi: "",
     priceEUR: "",
     description: "",
-    tags: "", // comma-separated
+    tags: "",
     image: "",
     trailerUrl: "",
     slug: "",
     latestReleases: false,
   });
 
-  // GESTIONE INPUT
+  // GESTIONE INPUT (text, number, select e la checkbox "latestReleases")
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({
@@ -56,15 +57,15 @@ export default function NewGamePage() {
     }));
   }
 
-  //   GESTIONE CHECK
+  //   GESTIONE CHECK MULTIPLE (platforms/modes): toggla il valore nell'array
   function handleMultiCheck(listName, value, checked) {
     setForm((prev) => {
-      const current = Array.isArray(prev[listName]) ? prev[listName] : [];
+      const current = Array.isArray(prev[listName]) ? prev[listName] : []; // prev[listName] verifico che sia un array se no lo setto [] ((es. "platforms" o "modes"))
       const next = checked
-        ? [...new Set([...current, value])] // aggiungi, no duplicati
-        : current.filter((v) => v !== value); // rimuovi
+        ? [...new Set([...current, value])] // Se Checked === true allora aggiungi, no duplicati (...) riconvertono Set in array
+        : current.filter((v) => v !== value); //Se Checked === fale rimuovi perché tolta la spunta
 
-      return { ...prev, [listName]: next };
+      return { ...prev, [listName]: next }; // Ritorno oggetto con array
     });
   }
 
@@ -112,8 +113,8 @@ export default function NewGamePage() {
       tags: form.tags
         ? form.tags
             .split(",")
-            .map((t) => t.trim())
-            .filter(Boolean)
+            .map((t) => t.trim()) //Rimuovo spazi
+            .filter(Boolean) // Rimuovo i falsi o gli inesistenti
         : [],
       image: form.image.trim(),
       trailerUrl: form.trailerUrl.trim(),

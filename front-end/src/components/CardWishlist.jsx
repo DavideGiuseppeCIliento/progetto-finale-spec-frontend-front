@@ -1,20 +1,19 @@
 // # IMPORT DIPENDENCES
-import { memo, useContext, useEffect } from "react";
+import { memo, useContext } from "react";
 import { Link } from "react-router-dom";
 
 // # IMPORT CONTEXT
 import { WishlistContext } from "../contexts/wishlistContext";
 
 function CardWishlist({ title, category, id }) {
-  const { wishlist, setWishlist } = useContext(WishlistContext); // Valori CONTEXT
+  const { wishlist, setWishlist } = useContext(WishlistContext); // Prelevo lista e setter dal Context
 
-  const isInWishlist = wishlist.some((item) => item.id === id);
+  const isInWishlist = wishlist.some((item) => item.id === id); // Flag: l'item è già presente in wishlist?
 
   // --- GESTIONE WISHLIST
   function handleWishlist(e) {
     e.preventDefault?.();
-    e.stopPropagation?.(); // STOP propagazione su elemetni genitori
-    console.log("CARICA FUNZIONE");
+    // console.log("CARICA FUNZIONE");
 
     setWishlist(
       (prev) =>

@@ -9,11 +9,9 @@ import { WishlistContext } from "../contexts/wishlistContext";
 import CardWishlist from "../components/CardWishList";
 
 export default function WishlistPage() {
-  const { wishlist, setWishlist } = useContext(WishlistContext); // solo lettura per layout
+  const { wishlist, setWishlist } = useContext(WishlistContext); // Estraggo dallo Store (Context) la lista e il setter
 
-  const hasItems = Array.isArray(wishlist) && wishlist.length > 0;
-
-  //   console.log("ELEMENTO ", wishlist[0]);
+  const hasItems = Array.isArray(wishlist) && wishlist.length > 0; // Flag per render condizionale
 
   // --- SVUOTAMENTO WISHLIST
   function handleClearWishlist(e) {

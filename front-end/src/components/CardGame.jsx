@@ -7,17 +7,15 @@ import { WishlistContext } from "../contexts/wishlistContext";
 import { CartContext } from "../contexts/CartContext";
 
 function CardGame({ title, category, id }) {
-  const { wishlist, setWishlist } = useContext(WishlistContext); // Valori CONTEXT
-  const { cart, setCart } = useContext(CartContext);
+  const { wishlist, setWishlist } = useContext(WishlistContext); // Leggo stato e setter dal Context della wishlist
+  const { cart, setCart } = useContext(CartContext); // Leggo stato e setter dal Context del carrello
 
-  const isInWishlist = wishlist.some((item) => item.id === id);
-  const isInCart = cart.some((item) => item.id === id);
+  const isInWishlist = wishlist.some((item) => item.id === id); // Flag: l'item è già in wishlist?
+  const isInCart = cart.some((item) => item.id === id); // Flag: l'item è già nel carrello?
 
   // --- GESTIONE WISHLIST
   function handleWishlist(e) {
     e.preventDefault();
-
-    // console.log("CARICA FUNZIONE");
 
     setWishlist(
       (prev) =>

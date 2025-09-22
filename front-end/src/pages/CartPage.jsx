@@ -6,9 +6,9 @@ import { Link, NavLink } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 
 export default function CartPage() {
-  const { cart, setCart } = useContext(CartContext);
+  const { cart, setCart } = useContext(CartContext); // Estraggo dallo Store (Context) la lista e il setter
 
-  const hasItems = Array.isArray(cart) && cart.length > 0;
+  const hasItems = Array.isArray(cart) && cart.length > 0; // Flag per render condizionale
 
   // --- RIMPOZIONE ITEM
   function handleRemove(id) {

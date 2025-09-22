@@ -8,14 +8,13 @@ export default function ItemBCompare({ idB, setIdItemB, setInputValue }) {
   const { gameDetail, ApiRequestDetail } = useGames(); // Importo GAME
 
   useEffect(() => {
-    ApiRequestDetail(idB);
+    ApiRequestDetail(idB); // Richiedo il dettaglio del gioco B quando cambia l'id
   }, [idB]);
 
   // GESTIONE CHIUSURA ITEMB
-
   function handleCloseItemB() {
-    setInputValue("");
-    setIdItemB(null);
+    setInputValue(""); //reset input
+    setIdItemB(null); // deseleziono B
   }
 
   return (

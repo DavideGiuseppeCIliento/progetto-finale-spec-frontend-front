@@ -10,15 +10,15 @@ import useGames from "../../hooks/useGames";
 import ModalUpdateGame from "../components/ModalUpdateGame";
 
 export default function GameListPage() {
-  const gamesApi = useGames(); // unica istanza condivisa
-  const { allGames, deleteGame } = gamesApi;
+  const gamesApi = useGames(); // unica istanza condivisa => La invio al modale Update
+  const { allGames, deleteGame } = gamesApi; // Destrutturo hook
 
   const [show, setShow] = useState(false);
   const [selectedGame, setSelectedGame] = useState(null);
 
   // --- GESTIONE REMOVE
   async function handleRemove(id, title) {
-    const ok = window.confirm(`Rimuovere definitivamente "${title}"?`);
+    const ok = window.confirm(`Rimuovere definitivamente "${title}"?`); // Conferma sincrona del browser
     if (!ok) return;
     try {
       await deleteGame(id);
@@ -28,12 +28,12 @@ export default function GameListPage() {
   }
   // --- MEMORIZZO GIOCO E APRO MODALE
   function openEdit(id) {
-    setSelectedGame(id);
-    setShow(true);
+    setSelectedGame(id); // salvo l’id del gioco da editare
+    setShow(true); // apro la modale
   }
 
   // Esistono ITEMS?
-  const hasItems = Array.isArray(allGames) && allGames.length > 0;
+  const hasItems = Array.isArray(allGames) && allGames.length > 0; // Esistono elementi in lista?
 
   return (
     <div className="container py-4">

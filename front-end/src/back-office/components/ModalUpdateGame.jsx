@@ -8,7 +8,7 @@ export default function ModalUpdateGame({
   open,
   onClose,
   idGame = {},
-  api,
+  api, // passo l'Hook intero dal parent per condividere lo stesso stato
   categories = [
     "Action",
     "Adventure",
@@ -27,25 +27,26 @@ export default function ModalUpdateGame({
   modes = ["Singleplayer", "Multiplayer", "Co-op", "Online"],
   pegiOptions = [3, 7, 12, 16, 18],
 }) {
-  const { ApiRequestDetail, gameDetail, updateGame } = api;
-  if (!open) return null;
+  const { ApiRequestDetail, gameDetail, updateGame } = api; // Destrutturo l'HOOK
 
   // ---   RACCOLGO IL GAME
   useEffect(() => {
-    ApiRequestDetail(idGame);
+    ApiRequestDetail(idGame); // Carico il dettaglio
   }, [idGame]);
 
-  console.log(idGame);
+  if (!open) return null; //Smonto modale se non aperta
 
-  console.log("DETTAGLIO GAME: ", gameDetail);
+  // console.log(idGame);
+
+  // console.log("DETTAGLIO GAME: ", gameDetail);
 
   // --- GESTIONE SUBMIT
   async function handleSubmit(e) {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
+    const fd = new FormData(e.currentTarget); // prendo tutti i campi del form (input/select/textarea/checkbox/radio)
 
-    // ## campi base
-    const title = (fd.get("title") || "").toString().trim();
+    // ## campi base - STRINGHE
+    const title = (fd.get("title") || "").toString().trim(); // Prendo la stringa senza spazi
     const category = (fd.get("category") || "").toString();
     const developer = (fd.get("developer") || "").toString().trim();
     const releaseYear = fd.get("releaseYear");
@@ -57,28 +58,30 @@ export default function ModalUpdateGame({
     const image = (fd.get("image") || "").toString().trim();
     const trailerUrl = (fd.get("trailerUrl") || "").toString().trim();
     const slug = (fd.get("slug") || "").toString().trim();
-    const latestReleases = fd.get("latestReleases") === "on";
+    const latestReleases = fd.get("latestReleases") === "on"; // ON se checked
 
-    // ## array dalle checkbox
-    const platforms = fd.getAll("platforms").map(String);
-    const modes = fd.getAll("modes").map(String);
+    // ## array dalle checkbox MULTIPLE
+    const platforms = fd.getAll("platforms").map(String); //getAll("name") ritorna *solo* i valori dei checkbox selezionati con quel name
+    const modes = fd.getAll("modes").map(String); //Converte in stringa ogni elemento. => array.map(x => String(x))
 
-    // ## tags
+    // ## tags separati da virgole
     const rawTags = (fd.get("tags") || "").toString();
     const tags = rawTags
-      .split(",")
-      .map((t) => t.trim())
-      .filter(Boolean);
+      .split(",") // separa su virgola
+      .map((t) => t.trim()) // rimuovi spazi
+      .filter(Boolean); // rimuoviamo i false, 0, -0, NaN, ""
 
-    // ## numeri
-    const toNum = (v) => (v === null || v === "" ? null : Number(v));
+    // ## FUNZIONE CONVERSIONE IN  numeri
+    function toNum(v) {
+      v === null || v === "" ? null : Number(v);
+    }
 
     const payload = {
       title,
       category,
       platforms,
       developer,
-      releaseYear: toNum(releaseYear),
+      releaseYear: toNum(releaseYear), //uso la funzione per tradurre in numeri
       modes,
       metascore: toNum(metascore),
       userScore: toNum(userScore),
@@ -95,7 +98,7 @@ export default function ModalUpdateGame({
     try {
       await updateGame(gameDetail.id, payload); // <-- await + PUT
       alert("Gioco modificato!");
-      onClose?.();
+      onClose(); // chiudi la modale
     } catch (err) {
       console.error("Problema nella richiesta", err);
       alert("Errore nella modifica");

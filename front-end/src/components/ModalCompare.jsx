@@ -8,16 +8,17 @@ import useDebounceValue from "../hooks/useDebounceValue";
 // # IMPORT COMPONENTS
 import ItemBCompare from "./ItemBCompare";
 
-// src/components/ModalCompare.jsx
+// ## Modale di confronto: mostra gioco A e permette di cercare/selezionare il gioco B
 export default function ModalCompare({ open, onClose, gameA }) {
-  if (!open) return null;
+  if (!open) return null; // se chiusa, non renderizza nulla (unmount → reset stato interno)
 
   const { games, getFilteredGames } = useGames(); // Prendop i games dall'HOOK
 
+  // Stato locale input ricerca e id del gioco B selezionato
   const [inputValue, setInputValue] = useState("");
-  const [idItemB, setIdItemB] = useState(null);
+  const [idItemB, setIdItemB] = useState(null); // Quando è scelto mostra (ItemBCompare)
 
-  // debounce dell’input
+  // debounce dell’input: aspetta 400ms dall’ultimo tasto prima di “stabilizzare” la query
   const debouncedSearch = useDebounceValue(inputValue, 400);
 
   // quando cambia il valore debounced O la categoria → chiama API
