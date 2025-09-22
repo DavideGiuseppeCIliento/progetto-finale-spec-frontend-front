@@ -10,7 +10,7 @@ import useGames from "../../hooks/useGames";
 import ModalUpdateGame from "../components/ModalUpdateGame";
 
 export default function GameListPage() {
-  const gamesApi = useGames(); // <-- unica istanza condivisa
+  const gamesApi = useGames(); // unica istanza condivisa
   const { allGames, deleteGame } = gamesApi;
 
   const [show, setShow] = useState(false);
@@ -89,7 +89,7 @@ export default function GameListPage() {
             open={show}
             onClose={() => setShow(false)}
             idGame={selectedGame}
-            api={gamesApi}
+            api={gamesApi} // invio tutto l'hook per aggiornare in tempo reale la lista (Ogni chiamata crea un nuovo stato)
           />,
           document.body
         )}

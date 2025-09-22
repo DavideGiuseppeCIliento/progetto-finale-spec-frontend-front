@@ -42,19 +42,18 @@ export default function useGames() {
   async function getFilteredGames(inputValue, categorySelected) {
     try {
       const search = (inputValue || "").trim(); // stringa o ""
-      const category = categorySelected || "";
+      const category = categorySelected || ""; // stringa o ""
 
       const params = {
-        ...(search && { search }),
-        ...(category && { category }),
+        ...(search && { search }), // Se c'è aggiungo search
+        ...(category && { category }), // Se c'è aggiungo category
       };
 
       const res = await axios.get(`${VITE_API_URL}/games`, {
+        // Chiamata con params
         params,
       });
 
-      const url = axios.getUri({ url: `${VITE_API_URL}/games`, params });
-      console.log("URL chiamata:", url);
       setGames(res.data);
 
       //   console.log("Filtraggio", res.data);
@@ -66,9 +65,9 @@ export default function useGames() {
   //  --- FUNZIONE DELATE
   async function deleteGame(id) {
     try {
-      setAllGames((prev) => prev.filter((g) => g.id !== id));
+      const res = await axios.delete(`${VITE_API_URL}/games/${id}`); //elimino il gioco
+      setAllGames((prev) => prev.filter((g) => g.id !== id)); //aggiorno UI
       setGames((prev) => prev.filter((g) => g.id !== id));
-      const res = await axios.delete(`${VITE_API_URL}/games/${id}`);
     } catch (err) {
       console.error("Problema nella richiesta GET");
     }
@@ -79,10 +78,10 @@ export default function useGames() {
     try {
       const res = await axios.post(`${VITE_API_URL}/games/`, payload);
 
-      const created = res.data?.game;
+      const created = res.data.game; // Prendo la risposta per aggiornale la UI
       if (!created) throw new Error("Risposta inattesa dal server");
 
-      // aggiorno lo stato locale
+      // aggiorno lo stato locale e la UI
       setAllGames((prev) => [...prev, created]);
       setGames((prev) => [...prev, created]);
     } catch (err) {
@@ -93,16 +92,15 @@ export default function useGames() {
   //  --- FUNZIONE UPDATE GAME
   async function updateGame(id, changes) {
     try {
-      const body = { ...gameDetail, ...changes };
-      // opzionale: non inviare timestamp
-      delete body.createdAt;
+      const body = { ...gameDetail, ...changes }; // Unisco i cambiamenti al dettaglio corrente
+      delete body.createdAt; // Rimuovo campi gestiti dal server, per evitare conflitti
       delete body.updatedAt;
 
-      const res = await axios.put(`${VITE_API_URL}/games/${id}`, body);
-      const updated = res.data.game; // Prendi la risp per aggiornare la UI
+      const res = await axios.put(`${VITE_API_URL}/games/${id}`, body); //Sostituisco la risorsa lato server
+      const updated = res.data.game; // Prendo la risp per aggiornare la UI
       console.log("UPDATE - RISPOSTA: ", updated);
 
-      setAllGames((prev) => prev.map((g) => (g.id === id ? updated : g)));
+      setAllGames((prev) => prev.map((g) => (g.id === id ? updated : g))); //Modifico UI
       setGames((prev) => prev.map((g) => (g.id === id ? updated : g)));
       setGameDetail(updated);
     } catch (err) {
